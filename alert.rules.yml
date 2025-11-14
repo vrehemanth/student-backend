@@ -1,0 +1,10 @@
+groups:
+- name: student-alerts
+  rules:
+  - alert: HighRequestRate
+    expr: rate(student_app_total_requests[1m]) > 10
+    for: 1m
+    labels:
+      severity: warning
+    annotations:
+      message: "Request rate too high!"

@@ -1,3 +1,4 @@
+const client = require("prom-client");
 const express = require("express");
 const mongoose = require("mongoose");
 const Student = require("./models/Student");
@@ -5,6 +6,7 @@ const Counter = require("./models/Counter");
 
 const app = express();
 app.use(express.json());
+
 
 // Serve UI from "client" folder
 app.use(express.static("client"));
@@ -19,6 +21,24 @@ mongoose.connect(
 .catch(err => console.log("❌ MongoDB Error: ", err));
 
 
+client.collectDefaultMetrics();
+
+// Custom metric: count total number of requests
+const totalRequests = new client.Counter({
+    name: "student_app_total_requests",
+    help: "Total number of requests to the student backend"
+});
+// Middleware to increment counter
+app.use((req, res, next) => {
+    totalRequests.inc();
+    next();
+});
+
+// Expose /metrics endpoint
+app.get("/metrics", async (req, res) => {
+    res.set("Content-Type", client.register.contentType);
+    res.send(await client.register.metrics());
+});
 // ------------------------------
 // CRUD ROUTES
 // ------------------------------
