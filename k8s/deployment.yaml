@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-backend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: student-backend
+  template:
+    metadata:
+      labels:
+        app: student-backend
+    spec:
+      containers:
+        - name: student-backend
+          image: vrehemanth/student-backend:latest   # MUST MATCH DOCKER HUB
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000

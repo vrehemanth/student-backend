@@ -98,6 +98,13 @@ app.delete("/students/:studentId", async (req, res) => {
 // ------------------------------
 // START SERVER
 // ------------------------------
-app.listen(3000, () =>
+// app.listen(3000, () =>
+//     console.log("🚀 Server running at http://localhost:3000")
+// );
+if (require.main === module) {
+  app.listen(3000, () =>
     console.log("🚀 Server running at http://localhost:3000")
-);
+  );
+}
+
+module.exports = app;
