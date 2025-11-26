@@ -34,7 +34,7 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: |
-          vrehemanth/student-backend:latest
+          vrehemanth/student-backend:v1
           vrehemanth/student-backend:${{ github.sha }}
 
     # Step 5: Show image info
