@@ -1,6 +1,6 @@
 services:
   student-backend:
-    image: vrehemanth/student-backend:latest   # YOUR CORRECT IMAGE
+    image: vrehemanth/student-backend:v1   # YOUR CORRECT IMAGE
     container_name: student-backend
     ports:
       - "3000:3000"

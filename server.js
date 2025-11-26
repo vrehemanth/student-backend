@@ -15,7 +15,8 @@ app.use(express.static("client"));
 // 🌐 CONNECT TO MONGODB ATLAS
 // ------------------------------
 mongoose.connect(
-    "mongodb+srv://vrehemanth4_db_user:cgbNqmtB0Vt7wi2P@cluster0.uiivf00.mongodb.net/?appName=Cluster0"
+    "mongodb+srv://vrehemanth4_db_user:KfXHVRpxCQCmv54X@cluster0.cpxvt7l.mongodb.net/?appName=Cluster0"
+    
 )
 .then(() => console.log("✅ Connected to MongoDB Atlas"))
 .catch(err => console.log("❌ MongoDB Error: ", err));
@@ -118,13 +119,13 @@ app.delete("/students/:studentId", async (req, res) => {
 // ------------------------------
 // START SERVER
 // ------------------------------
-// app.listen(3000, () =>
-//     console.log("🚀 Server running at http://localhost:3000")
-// );
-if (require.main === module) {
-  app.listen(3000, () =>
+app.listen(3000, () =>
     console.log("🚀 Server running at http://localhost:3000")
-  );
-}
+);
+// if (require.main === module) {
+//   app.listen(3000, () =>
+//     console.log("🚀 Server running at http://localhost:3000")
+//   );
+// }
 
 module.exports = app;

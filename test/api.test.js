@@ -1,49 +1,48 @@
 const chai = require("chai");
 const expect = chai.expect;
 const request = require("supertest");
-
-const app = require("../server");
+const app = require("../server"); // your Express app
 
 describe("Student API Tests", () => {
 
-    let createdId;
+    let createdStudentId = null;
 
-    it("GET /students → should return array", async () => {
+    // Test GET /students
+    it("GET /students should return status 200", async () => {
         const res = await request(app).get("/students");
         expect(res.status).to.equal(200);
         expect(res.body).to.be.an("array");
     });
 
-    it("POST /students → should create student", async () => {
+    // Test POST /students
+    it("POST /students should create a new student", async () => {
         const res = await request(app)
             .post("/students")
-            .send({ name: "Test", age: 20 });
+            .send({ name: "Test User", age: 20 });
 
         expect(res.status).to.equal(201);
-        createdId = res.body.studentId;
+        expect(res.body).to.have.property("studentId");
+
+        createdStudentId = res.body.studentId; // store for update/delete
     });
 
-    it("PUT /students/:id → should update student", async () => {
+    // Test PATCH /students/:studentId
+    it("PATCH /students/:id should update the student", async () => {
         const res = await request(app)
-            .put(`/students/${createdId}`)
-            .send({ name: "Updated", age: 30 });
+            .patch(`/students/${createdStudentId}`)
+            .send({ name: "Updated User", age: 22 });
 
         expect(res.status).to.equal(200);
+        expect(res.body.name).to.equal("Updated User");
     });
 
-    it("PATCH /students/:id → should partial update", async () => {
+    // Test DELETE /students/:studentId
+    it("DELETE /students/:id should delete the student", async () => {
         const res = await request(app)
-            .patch(`/students/${createdId}`)
-            .send({ age: 35 });
+            .delete(`/students/${createdStudentId}`);
 
         expect(res.status).to.equal(200);
-    });
-
-    it("DELETE /students/:id → should delete student", async () => {
-        const res = await request(app)
-            .delete(`/students/${createdId}`);
-
-        expect(res.status).to.equal(200);
+        expect(res.body.msg).to.equal("Deleted");
     });
 
 });
